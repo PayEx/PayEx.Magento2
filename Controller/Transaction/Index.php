@@ -70,12 +70,12 @@ class Index extends Action
         $result = $this->rawResultFactory->create();
 
         // Check is PayEx Request
-        if (!in_array($remote_addr, self::$allowed_ips)) {
+        /* if (!in_array($remote_addr, self::$allowed_ips)) {
             $logger->err('Access denied for this request. It\'s not PayEx Spider.', [$remote_addr]);
             $result->setStatusHeader('403', '1.1', 'Access denied. Accept PayEx Transaction Callback only.');
             $result->setContents('Error: Access denied. Accept PayEx Transaction Callback only.');
             return $result;
-        }
+        } */
 
         // Check Post Fields
         if (count($this->getRequest()->getParams()) === 0) {
