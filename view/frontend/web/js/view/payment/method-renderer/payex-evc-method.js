@@ -4,7 +4,7 @@ define(
     [
         'ko',
         'jquery',
-        'PayEx_Payments/js/view/payment/method-renderer/payex-cc-method'
+        'PayEx_Payments/js/view/payment/method-renderer/abstract'
     ],
     function (ko, $, Component) {
         'use strict';

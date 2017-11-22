@@ -6,6 +6,7 @@ use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Payment\Helper\Data as PaymentHelper;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\App\ObjectManager;
+use PayEx\Payments\Model\Method\Cc;
 use PayEx\Payments\Model\Method\Bankdebit;
 use PayEx\Payments\Model\Method\MasterPass;
 
@@ -57,10 +58,17 @@ class CcConfigProvider implements ConfigProviderInterface
     {
         $config = [
             'payment' => [
+                Cc::METHOD_CODE => [],
                 Bankdebit::METHOD_CODE => [],
                 MasterPass::METHOD_CODE => []
             ],
         ];
+
+        /** @var Cc $method */
+        $method = $this->paymentHelper->getMethodInstance(Cc::METHOD_CODE);
+        if ($method->isAvailable()) {
+            $config['payment'][Cc::METHOD_CODE]['redirect_url'] = $method->getOrderPlaceRedirectUrl();
+        }
 
         /** @var Bankdebit $method */
         $method = $this->paymentHelper->getMethodInstance(Bankdebit::METHOD_CODE);

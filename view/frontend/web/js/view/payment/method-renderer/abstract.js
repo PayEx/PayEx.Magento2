@@ -8,7 +8,6 @@ define(
         'PayEx_Payments/js/action/select-payment-method',
         'PayEx_Payments/js/action/get-payment-url',
         'Magento_Checkout/js/model/payment/additional-validators',
-        'Magento_Customer/js/model/customer',
         'Magento_Checkout/js/model/quote',
         'Magento_Customer/js/customer-data',
         'Magento_Checkout/js/model/full-screen-loader',
@@ -22,7 +21,6 @@ define(
         selectPaymentMethodAction,
         getPaymentUrlAction,
         additionalValidators,
-        customer,
         quote,
         customerData,
         fullScreenLoader,
@@ -42,32 +40,23 @@ define(
             placeOrder: function () {
                 if (additionalValidators.validate()) {
                     var self = this;
-                    var paymentData = this.getData();
                     selectPaymentMethodAction(this.getData()).done(function () {
-                        // Prepare payload
-                        var payload = {
-                            cartId: quote.getQuoteId(),
-                            billingAddress: quote.billingAddress(),
-                            paymentMethod: paymentData
-                        };
-
-                        if (!customer.isLoggedIn()) {
-                            payload.email = quote.guestEmail;
-                        }
-
-                        customerData.invalidate(['cart']);
-
-                        // Make request
-                        var form = $('<form>', {
-                            'action': window.checkoutConfig.payment.payex_cc.redirect_url,
-                            'method': 'post'
-                        }).append($('<input>', {
-                            'type': 'hidden',
-                            'name': 'payload',
-                            'value': JSON.stringify(payload)
-                        }));
-                        $(document.body).append(form);
-                        form.submit();
+                        //update payment method information if additional data was changed
+                        //this.selectPaymentMethod();
+                        //var method = this.getCode();
+                        placeOrderAction(self.getData(), self.messageContainer).done(function () {
+                            getPaymentUrlAction(self.messageContainer).always(function () {
+                                fullScreenLoader.stopLoader();
+                            }).done(function (redirect_url) {
+                                fullScreenLoader.startLoader();
+                                customerData.invalidate(['cart']);
+                                $.mage.redirect(redirect_url);
+                            }).error(function () {
+                                globalMessageList.addErrorMessage({
+                                    message: $t('An error occurred on the server. Please try to place the order again.')
+                                });
+                            });
+                        });
                     });
 
                     return false;
