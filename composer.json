@@ -12,7 +12,7 @@
     "ext-bcmath": "*",
     "ext-soap": "*",
     "ext-json": "*",
-    "payex/payex-sdk-php": "~1.0.2",
+    "payex/payex-sdk-php": "~3.0.0",
     "aait/php-name-parser": "~1.0.1",
     "guzzlehttp/guzzle": "^6.2",
     "ramsey/uuid": "^3.7"
