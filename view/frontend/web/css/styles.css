@@ -3,7 +3,6 @@
 .checkout-payment-method .payment-method-title label div.payex-logo.payex_gc,
 .checkout-payment-method .payment-method-title label div.payex-logo.payex_evc {
     display: inline-block;
-    background: url(../images/payex-small.gif) no-repeat;
     width: 82px;
     height: 39px;
 }
@@ -17,14 +16,12 @@
 
 .checkout-payment-method .payment-method-title label div.payex-logo.payex_financing {
     display: inline-block;
-    background: url(../images/financing-logo.gif) no-repeat;
     width: 82px;
     height: 54px;
 }
 
 .checkout-payment-method .payment-method-title label div.payex-logo.payex_partpayment {
     display: inline-block;
-    background: url(../images/partpayment-logo.gif) no-repeat;
     width: 84px;
     height: 55px;
 }
